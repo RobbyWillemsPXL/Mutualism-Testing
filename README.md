@@ -1,2 +1,10 @@
 # Mutualism-Testing
-Repository with testing code for the Mutualism IT Project
+
+# Appium
+
+# Playwright
+
+# Postman
+
+## Commando
+newman run pad_naar_collectie.json -e pad_naar_env.json
