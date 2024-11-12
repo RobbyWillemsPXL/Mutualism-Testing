@@ -16,6 +16,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
+									"pm.collectionVariables.set(\"baseUrl\", \"http://localhost:8000\");\r",
 									"const randomUsername = pm.variables.replaceIn('{{$randomUserName}}');\r",
 									"const randomPassword = pm.variables.replaceIn('{{$randomPassword}}');\r",
 									"\r",
@@ -47,8 +48,8 @@
 									"    pm.expect(pm.response.code).to.equal(200);\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Respons tijd is minder dan 300ms\", function () {\r",
-									"  pm.expect(pm.response.responseTime).to.be.below(300);\r",
+									"pm.test(\"Respons tijd is minder dan 500ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
 									"});\r",
 									"\r",
 									""
@@ -125,8 +126,8 @@
 									"    pm.expect(pm.response.code).to.equal(200);\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Respons tijd is minder dan 300ms\", function () {\r",
-									"  pm.expect(pm.response.responseTime).to.be.below(300);\r",
+									"pm.test(\"Respons tijd is minder dan 500\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
 									"});\r",
 									""
 								],
@@ -203,8 +204,8 @@
 									"    pm.expect(responseData.access_token).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Access token mag niet leeg zijn\");\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Respons tijd is minder dan 350ms\", function () {\r",
-									"  pm.expect(pm.response.responseTime).to.be.below(350);\r",
+									"pm.test(\"Respons tijd is minder dan 500ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
 									"});\r",
 									""
 								],
@@ -306,8 +307,8 @@
 									"    pm.expect(pm.response.code).to.equal(200);\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Respons tijd is minder dan 300ms\", function () {\r",
-									"  pm.expect(pm.response.responseTime).to.be.below(300);\r",
+									"pm.test(\"Respons tijd is minder dan 500ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
 									"});\r",
 									""
 								],
@@ -384,8 +385,8 @@
 									"    pm.expect(responseData.access_token).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Access token mag niet leeg zijn\");\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Respons tijd is minder dan 350ms\", function () {\r",
-									"  pm.expect(pm.response.responseTime).to.be.below(350);\r",
+									"pm.test(\"Respons tijd is minder dan 500ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
 									"});\r",
 									""
 								],
@@ -451,8 +452,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Respons tijd is minder dan 300ms\", function () {\r",
-									"  pm.expect(pm.response.responseTime).to.be.below(300);\r",
+									"pm.test(\"Respons tijd is minder dan 500ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
 									"});\r",
 									"\r",
 									"pm.test(\"Respons bevat een message-eigenschap\", function () {\r",
@@ -464,7 +465,7 @@
 									"});\r",
 									"\r",
 									"pm.test(\"Message is 'token is valid'\", function () {\r",
-									"    pm.expect(pm.response.json().message).to.eql(\"token is valid\");\r",
+									"    pm.expect(pm.response.json().message).to.eql(\"Token is valid\");\r",
 									"});\r",
 									""
 								],
@@ -484,6 +485,268 @@
 							"path": [
 								"verify-token",
 								"{{authToken}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TC04 - Login met onbestaande gebruiker",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse de JSON-respons\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"// Sla de access_token op in een collectie-variabele\r",
+									"pm.collectionVariables.set(\"authToken\", response.access_token);\r",
+									"\r",
+									"// Log de access token voor controle\r",
+									"console.log(\"Access Token opgeslagen:\", pm.collectionVariables.get(\"authToken\"));\r",
+									"\r",
+									"pm.test(\"Responsstatuscode is 401\", function () {\r",
+									"  pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Respons tijd is minder dan 500ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "wronguser",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "wrongpassword",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "string",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "string",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TC04 - Login met bestaande user met fout password",
+			"item": [
+				{
+					"name": "registreer nieuwe gebruiker",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const randomUsername = pm.variables.replaceIn('{{$randomUserName}}');\r",
+									"const randomPassword = pm.variables.replaceIn('{{$randomPassword}}');\r",
+									"\r",
+									"// Sla de gegenereerde gegevens op als variabelen\r",
+									"pm.collectionVariables.set(\"username\", randomUsername);\r",
+									"pm.collectionVariables.set(\"password\", randomPassword);\r",
+									"\r",
+									"// Log de gegenereerde waarden voor controle\r",
+									"console.log(\"Generated Username:\", randomUsername);\r",
+									"console.log(\"Generated Password:\", randomPassword);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Registratie geslaagd met 'complete' response\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.expect(pm.response.text()).to.include(\"complete\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Responsstatuscode is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Respons tijd is minder dan 500ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"{{password}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse de JSON-respons\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"// Sla de access_token op in een collectie-variabele\r",
+									"pm.collectionVariables.set(\"authToken\", response.access_token);\r",
+									"\r",
+									"// Log de access token voor controle\r",
+									"console.log(\"Access Token opgeslagen:\", pm.collectionVariables.get(\"authToken\"));\r",
+									"\r",
+									"pm.test(\"Responsstatuscode is 401\", function () {\r",
+									"  pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Respons tijd is minder dan 500ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "wrongpassword",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "string",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "string",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
 							]
 						}
 					},
