@@ -1,0 +1,415 @@
+{
+	"id": "bd917bca-ce72-4631-b0b2-c7f23806dfc1",
+	"name": "Mutualism API-testing",
+	"timestamp": "2024-11-15T11:12:01.102Z",
+	"collection_id": "24983437-d08c0116-ed23-449b-9506-4a654893c69d",
+	"folder_id": 0,
+	"environment_id": "24983437-7a899539-a279-4d3c-86db-e028f0e034aa",
+	"totalPass": 28,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2024-11-15T11:11:57.853Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "86194600-3803-4c63-85e0-2cfcf2053749",
+			"name": "registreer nieuwe gebruiker",
+			"url": "http://localhost:8000/register",
+			"time": 400,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Registratie geslaagd met 'complete' response": true,
+				"Respons statuscode is 200": true,
+				"Respons tijd is minder dan 500ms": true
+			},
+			"testPassFailCounts": {
+				"Registratie geslaagd met 'complete' response": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Respons statuscode is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Respons tijd is minder dan 500ms": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				400
+			],
+			"allTests": [
+				{
+					"Registratie geslaagd met 'complete' response": true,
+					"Respons statuscode is 200": true,
+					"Respons tijd is minder dan 500ms": true
+				}
+			]
+		},
+		{
+			"id": "74db6078-8785-41b8-8c52-5890433329e0",
+			"name": "registreer nieuwe gebruiker",
+			"url": "http://localhost:8000/register",
+			"time": 254,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Registratie geslaagd met 'complete' response": true,
+				"Responsstatuscode is 200": true,
+				"Respons tijd is minder dan 500": true
+			},
+			"testPassFailCounts": {
+				"Registratie geslaagd met 'complete' response": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Responsstatuscode is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Respons tijd is minder dan 500": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				254
+			],
+			"allTests": [
+				{
+					"Registratie geslaagd met 'complete' response": true,
+					"Responsstatuscode is 200": true,
+					"Respons tijd is minder dan 500": true
+				}
+			]
+		},
+		{
+			"id": "5ad0d4f7-a608-4f3f-8d00-d52750be5160",
+			"name": "login",
+			"url": "http://localhost:8000/login",
+			"time": 284,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Responsstatuscode is 200": true,
+				"Respons bevat de vereiste velden - access_token en token_type": true,
+				"Access token is een niet-lege string": true,
+				"Respons tijd is minder dan 500ms": true
+			},
+			"testPassFailCounts": {
+				"Responsstatuscode is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Respons bevat de vereiste velden - access_token en token_type": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Access token is een niet-lege string": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Respons tijd is minder dan 500ms": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				284
+			],
+			"allTests": [
+				{
+					"Responsstatuscode is 200": true,
+					"Respons bevat de vereiste velden - access_token en token_type": true,
+					"Access token is een niet-lege string": true,
+					"Respons tijd is minder dan 500ms": true
+				}
+			]
+		},
+		{
+			"id": "e468b7d1-2473-418d-96bf-32dbf79715e4",
+			"name": "registreer nieuwe gebruiker",
+			"url": "http://localhost:8000/register",
+			"time": 299,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Registratie geslaagd met 'complete' response": true,
+				"Responsstatuscode is 200": true,
+				"Respons tijd is minder dan 500ms": true
+			},
+			"testPassFailCounts": {
+				"Registratie geslaagd met 'complete' response": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Responsstatuscode is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Respons tijd is minder dan 500ms": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				299
+			],
+			"allTests": [
+				{
+					"Registratie geslaagd met 'complete' response": true,
+					"Responsstatuscode is 200": true,
+					"Respons tijd is minder dan 500ms": true
+				}
+			]
+		},
+		{
+			"id": "19a9466d-39b1-4781-ae1a-86d4f2045bdf",
+			"name": "login",
+			"url": "http://localhost:8000/login",
+			"time": 271,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Responsstatuscode is 200": true,
+				"Respons bevat de vereiste velden - access_token en token_type": true,
+				"Access token is een niet-lege string": true,
+				"Respons tijd is minder dan 500ms": true
+			},
+			"testPassFailCounts": {
+				"Responsstatuscode is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Respons bevat de vereiste velden - access_token en token_type": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Access token is een niet-lege string": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Respons tijd is minder dan 500ms": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				271
+			],
+			"allTests": [
+				{
+					"Responsstatuscode is 200": true,
+					"Respons bevat de vereiste velden - access_token en token_type": true,
+					"Access token is een niet-lege string": true,
+					"Respons tijd is minder dan 500ms": true
+				}
+			]
+		},
+		{
+			"id": "e0e11a6c-a795-4f11-9dd1-1e252aef50a6",
+			"name": "Verifieer token",
+			"url": "http://localhost:8000/verify-token/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJSb29zZXZlbHRfQ29sZSIsImV4cCI6MTczMTY3MDkyMH0.tBV56RFQYBWqTcv3-1nMR48zwGTPK_6_j9AdAV0BVH8",
+			"time": 9,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Respons tijd is minder dan 500ms": true,
+				"Respons bevat een message-eigenschap": true,
+				"Respons statuscode is 200": true,
+				"Message is 'token is valid'": true
+			},
+			"testPassFailCounts": {
+				"Respons tijd is minder dan 500ms": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Respons bevat een message-eigenschap": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Respons statuscode is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message is 'token is valid'": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"Respons tijd is minder dan 500ms": true,
+					"Respons bevat een message-eigenschap": true,
+					"Respons statuscode is 200": true,
+					"Message is 'token is valid'": true
+				}
+			]
+		},
+		{
+			"id": "63f3c417-e676-4d5b-a170-348c444fd9ae",
+			"name": "login",
+			"url": "http://localhost:8000/login",
+			"time": 9,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"Responsstatuscode is 401": true,
+				"Respons tijd is minder dan 500ms": true
+			},
+			"testPassFailCounts": {
+				"Responsstatuscode is 401": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Respons tijd is minder dan 500ms": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"Responsstatuscode is 401": true,
+					"Respons tijd is minder dan 500ms": true
+				}
+			]
+		},
+		{
+			"id": "a113da72-3cc6-4de0-9a89-ea7593110889",
+			"name": "registreer nieuwe gebruiker",
+			"url": "http://localhost:8000/register",
+			"time": 308,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Registratie geslaagd met 'complete' response": true,
+				"Responsstatuscode is 200": true,
+				"Respons tijd is minder dan 500ms": true
+			},
+			"testPassFailCounts": {
+				"Registratie geslaagd met 'complete' response": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Responsstatuscode is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Respons tijd is minder dan 500ms": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				308
+			],
+			"allTests": [
+				{
+					"Registratie geslaagd met 'complete' response": true,
+					"Responsstatuscode is 200": true,
+					"Respons tijd is minder dan 500ms": true
+				}
+			]
+		},
+		{
+			"id": "40540c75-547b-40f9-a348-2170c876f60d",
+			"name": "login",
+			"url": "http://localhost:8000/login",
+			"time": 250,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"Responsstatuscode is 401": true,
+				"Respons tijd is minder dan 500ms": true
+			},
+			"testPassFailCounts": {
+				"Responsstatuscode is 401": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Respons tijd is minder dan 500ms": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				250
+			],
+			"allTests": [
+				{
+					"Responsstatuscode is 401": true,
+					"Respons tijd is minder dan 500ms": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 2084,
+	"collection": {
+		"requests": [
+			{
+				"id": "86194600-3803-4c63-85e0-2cfcf2053749",
+				"method": "POST"
+			},
+			{
+				"id": "74db6078-8785-41b8-8c52-5890433329e0",
+				"method": "POST"
+			},
+			{
+				"id": "5ad0d4f7-a608-4f3f-8d00-d52750be5160",
+				"method": "POST"
+			},
+			{
+				"id": "e468b7d1-2473-418d-96bf-32dbf79715e4",
+				"method": "POST"
+			},
+			{
+				"id": "19a9466d-39b1-4781-ae1a-86d4f2045bdf",
+				"method": "POST"
+			},
+			{
+				"id": "e0e11a6c-a795-4f11-9dd1-1e252aef50a6",
+				"method": "GET"
+			},
+			{
+				"id": "63f3c417-e676-4d5b-a170-348c444fd9ae",
+				"method": "POST"
+			},
+			{
+				"id": "a113da72-3cc6-4de0-9a89-ea7593110889",
+				"method": "POST"
+			},
+			{
+				"id": "40540c75-547b-40f9-a348-2170c876f60d",
+				"method": "POST"
+			}
+		]
+	}
+}
