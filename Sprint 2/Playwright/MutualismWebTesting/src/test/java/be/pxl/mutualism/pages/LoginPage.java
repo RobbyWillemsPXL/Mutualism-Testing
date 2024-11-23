@@ -5,6 +5,7 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.PlaywrightException;
 import com.microsoft.playwright.options.AriaRole;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LoginPage {
@@ -16,6 +17,7 @@ public class LoginPage {
     private final Locator passwordSelector;
     private final Locator loginButtonSelector;
     private final Locator errorSelector;
+    private final Locator continueAsGuestButtonSelector;
 
     public LoginPage(Page page) {
         this.page = page;
@@ -23,6 +25,8 @@ public class LoginPage {
         this.passwordSelector = page.getByLabel("Password");
         this.loginButtonSelector = page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Login"));
         this.errorSelector = page.getByText("Ongeldige gebruikersnaam of");
+        this.continueAsGuestButtonSelector = page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Ga verder als gast"));
+
     }
 
     public void navigate() {
@@ -39,19 +43,31 @@ public class LoginPage {
         return this.page;
     }
 
+    public void loginRedirectsToCorrectPageTest(ExtentTest test) {
+        loginRedirectsToCorrectPageTest(test, null, null);
+    }
+
     public void loginRedirectsToCorrectPageTest(ExtentTest test, String username, String password) {
-        login(username, password);
+        if (username == null || password == null) {
+            continueAsGuest();
+        } else {
+            login(username, password);
+        }
+        verifyLogin(test);
+    }
+
+    private void verifyLogin(ExtentTest test) {
         String mapURL = URL + "map";
         page.waitForURL(mapURL);
 
         boolean isMapPage = page.url().equals(mapURL);
 
         if (isMapPage) {
-            test.pass("Login succesful");
+            test.pass("Login geslaagd.");
         } else {
-            test.fail("Login not succesful");
+            test.fail("Login niet geslaagd.");
         }
-        assertTrue(isMapPage, "Login succeeded");
+        assertTrue(isMapPage, "Login geslaagd.");
     }
 
     public void faultyLoginErrorMessageTest(ExtentTest test, String username, String password) {
@@ -77,7 +93,6 @@ public class LoginPage {
     }
 
 
-
     public void faultLoginDoesNotRedirectTest(ExtentTest test, String username, String password) {
         login(username, password);
         page.waitForURL(URL);
@@ -87,8 +102,27 @@ public class LoginPage {
         if (isMapPage) {
             test.pass("Faulty login redirect niet zoals verwacht.");
         } else {
-            test.fail("Faulty login redirect gebeurt");
+            test.fail("Faulty login is foutief geredirect.");
         }
-        assertTrue(isMapPage, "Login succeeded");
+        assertTrue(isMapPage, "Login geslaagd.");
+    }
+
+    public void continueAsGuest() {
+        continueAsGuestButtonSelector.click();
+    }
+
+    public void navigateToUpload(String uploadURL) {
+        page.navigate(uploadURL);
+    }
+    public void testURL(ExtentTest test, String testURL) {
+        page.waitForURL(testURL);
+        Boolean isCorrectURL = page.url().equals(testURL);
+
+        if (isCorrectURL) {
+            test.pass("Navigatie naar " + testURL + " is geslaagd.");
+        } else {
+            test.fail("Navigatie naar " + testURL + " is niet geslaagd.");
+        }
+        assertTrue(isCorrectURL, "Navigatie naar " + testURL + " is geslaagd.");
     }
 }
