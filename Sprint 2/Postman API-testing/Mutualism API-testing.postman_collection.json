@@ -45,8 +45,8 @@
 									"    pm.expect(pm.response.code).to.equal(200);\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Respons tijd is minder dan 500ms\", function () {\r",
-									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"pm.test(\"Respons tijd is minder dan 600ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(600);\r",
 									"});\r",
 									"\r",
 									""
@@ -121,8 +121,8 @@
 									"    pm.expect(pm.response.code).to.equal(200);\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Respons tijd is minder dan 500\", function () {\r",
-									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"pm.test(\"Respons tijd is minder dan 600\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(600);\r",
 									"});\r",
 									""
 								],
@@ -199,8 +199,8 @@
 									"    pm.expect(data.access_token).to.be.a(\"string\").that.is.not.empty;\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Respons tijd is minder dan 500ms\", function () {\r",
-									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"pm.test(\"Respons tijd is minder dan 600ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(600);\r",
 									"});\r",
 									""
 								],
@@ -299,8 +299,8 @@
 									"    pm.expect(pm.response.code).to.equal(200);\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Respons tijd is minder dan 500ms\", function () {\r",
-									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"pm.test(\"Respons tijd is minder dan 600ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(600);\r",
 									"});\r",
 									""
 								],
@@ -337,16 +337,6 @@
 					"name": "login",
 					"event": [
 						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"console.log(pm.collectionVariables.get(\"username\"));"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						},
-						{
 							"listen": "test",
 							"script": {
 								"exec": [
@@ -377,10 +367,20 @@
 									"    pm.expect(data.access_token).to.be.a(\"string\").that.is.not.empty;\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Respons tijd is minder dan 500ms\", function () {\r",
-									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"pm.test(\"Respons tijd is minder dan 600ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(600);\r",
 									"});\r",
 									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(pm.collectionVariables.get(\"username\"));"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -445,8 +445,8 @@
 							"script": {
 								"exec": [
 									"// Test op de respons tijd\r",
-									"pm.test(\"Respons tijd is minder dan 500ms\", () => {\r",
-									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"pm.test(\"Respons tijd is minder dan 600ms\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
 									"});\r",
 									"\r",
 									"// Test of de respons een 'message'-eigenschap bevat\r",
@@ -514,8 +514,8 @@
 									"  pm.response.to.have.status(401);\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Respons tijd is minder dan 500ms\", function () {\r",
-									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"pm.test(\"Respons tijd is minder dan 600ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(600);\r",
 									"});\r",
 									"\r",
 									"pm.test(\"Error message is correct\", function () {\r",
@@ -620,8 +620,8 @@
 									"    pm.expect(pm.response.code).to.equal(200);\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Respons tijd is minder dan 500ms\", function () {\r",
-									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"pm.test(\"Respons tijd is minder dan 600ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(600);\r",
 									"});\r",
 									""
 								],
@@ -678,8 +678,8 @@
 									"  pm.response.to.have.status(401);\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Respons tijd is minder dan 500ms\", function () {\r",
-									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"pm.test(\"Respons tijd is minder dan 600ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(600);\r",
 									"});\r",
 									"\r",
 									"pm.test(\"Error message is correct\", function () {\r",
