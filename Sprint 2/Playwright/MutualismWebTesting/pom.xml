@@ -73,7 +73,7 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.3.1</version> <!-- Or newer -->
       </plugin>
-      
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -83,8 +83,6 @@
           <target>21</target>
         </configuration>
       </plugin>
-
->>>>>>> 009e73f (alles toegevoegd)
     </plugins>
   </build>
 </project>
