@@ -23,7 +23,7 @@ public class TC21_UploadNavigationAsRegularUserTest {
     @BeforeAll
     static void launchBrowser() {
         playwright = Playwright.create();
-        browser = BrowserFactory.createBrowser(playwright, false);
+        browser = BrowserFactory.createBrowser(playwright, true);
         ReporterFactory.getInstance();
     }
 

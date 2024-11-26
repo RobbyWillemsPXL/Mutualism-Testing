@@ -26,7 +26,7 @@ public class TC20_LogoutTest {
     @BeforeAll
     static void launchBrowser() {
         playwright = Playwright.create();
-        browser = BrowserFactory.createBrowser(playwright, false);
+        browser = BrowserFactory.createBrowser(playwright, true);
         ReporterFactory.getInstance();
     }
 

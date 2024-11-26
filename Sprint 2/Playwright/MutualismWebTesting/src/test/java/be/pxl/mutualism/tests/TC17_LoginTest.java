@@ -22,7 +22,7 @@ public class TC17_LoginTest {
     @BeforeAll
     static void launchBrowser() {
         playwright = Playwright.create();
-        browser = BrowserFactory.createBrowser(playwright, false);
+        browser = BrowserFactory.createBrowser(playwright, true);
         ReporterFactory.getInstance();
     }
 
