@@ -28,7 +28,7 @@ public class TC26_UploadErrorTest {
 
     @BeforeAll
     static void launchBrowser() {
-        DatabaseUtil.clearTreesTable(dbUrl, dbUser, dbPassword);
+//        DatabaseUtil.clearTreesTable(dbUrl, dbUser, dbPassword);
         playwright = Playwright.create();
         System.out.println("playwright created");
         browser = BrowserFactory.createBrowser(playwright, true);

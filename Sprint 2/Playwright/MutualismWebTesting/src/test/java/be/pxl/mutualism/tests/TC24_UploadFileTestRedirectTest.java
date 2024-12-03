@@ -32,7 +32,7 @@ public class TC24_UploadFileTestRedirectTest {
 
     @BeforeAll
     static void launchBrowser() {
-        DatabaseUtil.clearTreesTable(dbUrl, dbUser, dbPassword);
+//        DatabaseUtil.clearTreesTable(dbUrl, dbUser, dbPassword);
         playwright = Playwright.create();
         browser = BrowserFactory.createBrowser(playwright, true);
         ReporterFactory.getInstance();

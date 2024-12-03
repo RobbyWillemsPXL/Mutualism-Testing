@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mutualism API-testing" tests="9" time="8.848">
+  <testsuite name="TC01 - Registreer als nieuwe gebruiker / registreer nieuwe gebruiker" id="1d924d43-1c51-4ef6-beb7-e4f41bb9ebc7" timestamp="2024-12-03T16:32:33.151Z" tests="3" failures="1" errors="0" time="6.434">
+    <testcase name="Message is correct" time="6.434" classname="Tc01RegistreerAlsNieuweGebruikerRegistreerNieuweGebruiker"/>
+    <testcase name="Respons statuscode is 200" time="6.434" classname="Tc01RegistreerAlsNieuweGebruikerRegistreerNieuweGebruiker"/>
+    <testcase name="Respons tijd is minder dan 1000ms" time="6.434" classname="Tc01RegistreerAlsNieuweGebruikerRegistreerNieuweGebruiker">
+      <failure type="AssertionFailure" message="expected 6434 to be below 1000">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: d08c0116-ed23-449b-9506-4a654893c69d.]]>
+        <![CDATA[Collection name: Mutualism API-testing.]]>
+        <![CDATA[Request name: TC01 - Registreer als nieuwe gebruiker / registreer nieuwe gebruiker.]]>
+        <![CDATA[Test description: Respons tijd is minder dan 1000ms.]]>
+        <![CDATA[Error message: expected 6434 to be below 1000.]]>
+        <![CDATA[Stacktrace: AssertionError: expected 6434 to be below 1000
+   at Object.eval sandbox-script.js:3:1).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="TC02 - Registreer als nieuwe gebruiker &amp; login / registreer nieuwe gebruiker" id="257b67fc-5a18-4f76-be0f-553aea3ed22b" timestamp="2024-12-03T16:32:33.151Z" tests="3" failures="0" errors="0" time="0.403">
+    <testcase name="Message is correct" time="0.403" classname="Tc02RegistreerAlsNieuweGebruikerAmpLoginRegistreerNieuweGebruiker"/>
+    <testcase name="Responsstatuscode is 200" time="0.403" classname="Tc02RegistreerAlsNieuweGebruikerAmpLoginRegistreerNieuweGebruiker"/>
+    <testcase name="Respons tijd is minder dan 1000ms" time="0.403" classname="Tc02RegistreerAlsNieuweGebruikerAmpLoginRegistreerNieuweGebruiker"/>
+  </testsuite>
+  <testsuite name="TC02 - Registreer als nieuwe gebruiker &amp; login / login" id="6ce972a5-d1f4-47d7-bcd6-76f13fc7a55b" timestamp="2024-12-03T16:32:33.151Z" tests="3" failures="0" errors="0" time="0.388">
+    <testcase name="Responsstatuscode is 200" time="0.388" classname="Tc02RegistreerAlsNieuweGebruikerAmpLoginLogin"/>
+    <testcase name="Data object bevat correcte velden" time="0.388" classname="Tc02RegistreerAlsNieuweGebruikerAmpLoginLogin"/>
+    <testcase name="Respons tijd is minder dan 1000ms" time="0.388" classname="Tc02RegistreerAlsNieuweGebruikerAmpLoginLogin"/>
+  </testsuite>
+  <testsuite name="TC03 - Verifieer token / registreer nieuwe gebruiker" id="e2401966-b0c9-4a6b-b2b6-d4fc8613e11d" timestamp="2024-12-03T16:32:33.151Z" tests="3" failures="0" errors="0" time="0.393">
+    <testcase name="Message is correct" time="0.393" classname="Tc03VerifieerTokenRegistreerNieuweGebruiker"/>
+    <testcase name="Responsstatuscode is 200" time="0.393" classname="Tc03VerifieerTokenRegistreerNieuweGebruiker"/>
+    <testcase name="Respons tijd is minder dan 10000ms" time="0.393" classname="Tc03VerifieerTokenRegistreerNieuweGebruiker"/>
+  </testsuite>
+  <testsuite name="TC03 - Verifieer token / login" id="5930c2f9-9515-44a0-a790-8724086d255c" timestamp="2024-12-03T16:32:33.151Z" tests="3" failures="0" errors="0" time="0.378">
+    <testcase name="Responsstatuscode is 200" time="0.378" classname="Tc03VerifieerTokenLogin"/>
+    <testcase name="Data object bevat correcte velden" time="0.378" classname="Tc03VerifieerTokenLogin"/>
+    <testcase name="Respons tijd is minder dan 1000ms" time="0.378" classname="Tc03VerifieerTokenLogin"/>
+  </testsuite>
+  <testsuite name="TC03 - Verifieer token / Verifieer token" id="bdbbcc52-bc1d-4144-a26f-2b589a19533b" timestamp="2024-12-03T16:32:33.151Z" tests="4" failures="0" errors="0" time="0.043">
+    <testcase name="Respons tijd is minder dan 1000ms" time="0.043" classname="Tc03VerifieerTokenVerifieerToken"/>
+    <testcase name="Respons bevat een 'message'-eigenschap" time="0.043" classname="Tc03VerifieerTokenVerifieerToken"/>
+    <testcase name="Statuscode is 200" time="0.043" classname="Tc03VerifieerTokenVerifieerToken"/>
+    <testcase name="Message heeft de waarde 'Token is valid'" time="0.043" classname="Tc03VerifieerTokenVerifieerToken"/>
+  </testsuite>
+  <testsuite name="TC04 - Login met onbestaande gebruiker / login" id="bb6d7f52-5b8c-44d4-a840-48064a6f6b6b" timestamp="2024-12-03T16:32:33.151Z" tests="3" failures="0" errors="0" time="0.031">
+    <testcase name="Responsstatuscode is 401" time="0.031" classname="Tc04LoginMetOnbestaandeGebruikerLogin"/>
+    <testcase name="Respons tijd is minder dan 1000ms" time="0.031" classname="Tc04LoginMetOnbestaandeGebruikerLogin"/>
+    <testcase name="Error message is correct" time="0.031" classname="Tc04LoginMetOnbestaandeGebruikerLogin"/>
+  </testsuite>
+  <testsuite name="TC05 - Login met bestaande user met fout password / registreer nieuwe gebruiker" id="04965a36-1c89-4a5c-8ed6-8f6a38bf2d98" timestamp="2024-12-03T16:32:33.151Z" tests="3" failures="0" errors="0" time="0.400">
+    <testcase name="Message is correct" time="0.400" classname="Tc05LoginMetBestaandeUserMetFoutPasswordRegistreerNieuweGebruiker"/>
+    <testcase name="Responsstatuscode is 200" time="0.400" classname="Tc05LoginMetBestaandeUserMetFoutPasswordRegistreerNieuweGebruiker"/>
+    <testcase name="Respons tijd is minder dan 1000ms" time="0.400" classname="Tc05LoginMetBestaandeUserMetFoutPasswordRegistreerNieuweGebruiker"/>
+  </testsuite>
+  <testsuite name="TC05 - Login met bestaande user met fout password / login" id="4fd8e39a-df35-4380-b7ca-5e357d9e0231" timestamp="2024-12-03T16:32:33.151Z" tests="3" failures="0" errors="0" time="0.378">
+    <testcase name="Responsstatuscode is 401" time="0.378" classname="Tc05LoginMetBestaandeUserMetFoutPasswordLogin"/>
+    <testcase name="Respons tijd is minder dan 1000ms" time="0.378" classname="Tc05LoginMetBestaandeUserMetFoutPasswordLogin"/>
+    <testcase name="Error message is correct" time="0.378" classname="Tc05LoginMetBestaandeUserMetFoutPasswordLogin"/>
+  </testsuite>
+</testsuites>
