@@ -47,6 +47,8 @@ public class LoginPage {
         loginRedirectsToCorrectPageTest(test, null, null);
     }
 
+
+
     public void loginRedirectsToCorrectPageTest(ExtentTest test, String username, String password) {
         if (username == null || password == null) {
             continueAsGuest();

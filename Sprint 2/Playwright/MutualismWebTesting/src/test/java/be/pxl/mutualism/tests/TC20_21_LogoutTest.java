@@ -1,6 +1,8 @@
 package be.pxl.mutualism.tests;
 
 import be.pxl.mutualism.pages.LoginPage;
+import be.pxl.mutualism.pages.MapPage;
+import be.pxl.mutualism.pages.UploadPage;
 import be.pxl.mutualism.utils.BrowserFactory;
 import be.pxl.mutualism.utils.ReporterFactory;
 import com.aventstack.extentreports.ExtentTest;
@@ -9,7 +11,7 @@ import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Playwright;
 import org.junit.jupiter.api.*;
 
-public class TC22_ContinueAsGuestNavigationTest {
+public class TC20_21_LogoutTest {
     private static Playwright playwright;
     private static Browser browser;
 
@@ -17,6 +19,8 @@ public class TC22_ContinueAsGuestNavigationTest {
     private BrowserContext context;
     private LoginPage loginPage;
     private ExtentTest test;
+    private MapPage mapPage;
+    private UploadPage uploadPage;
 
 
     @BeforeAll
@@ -30,8 +34,6 @@ public class TC22_ContinueAsGuestNavigationTest {
     void createContextAndPages() {
         context = browser.newContext();
         loginPage = new LoginPage(context.newPage());
-        test = ReporterFactory.createTest("TC22_ContinueAsGuestNavigationTest",
-                "Test that checks a succesful login.");
     }
 
     @AfterAll
@@ -47,8 +49,29 @@ public class TC22_ContinueAsGuestNavigationTest {
     }
 
     @Test
-    public void TC22_ContinueAsGuestNavigationTest() {
+    public void TC20_logoutFromMapPageTest() {
+        test = ReporterFactory.createTest("TC20a_LogoutTest - logoutFromMapPageTest",
+                "Test that checks the" +
+                " logout functionality from the map page.");
         loginPage.navigate();
-        loginPage.loginRedirectsToCorrectPageTest(test);
+        loginPage.login("string", "string");
+        mapPage = new MapPage(loginPage.getPage());
+        mapPage.logOut();
+        mapPage.testURL(test, System.getProperty("app.url"));
+    }
+
+    @Test
+    public void TC21_logoutFromUploadPageTest() {
+        test = ReporterFactory.createTest("TC20b_LogoutTest - logoutFromUploadPageTest",
+                "Test that checks the" +
+                " logout functionality from the upload page.");
+        loginPage = new LoginPage(context.newPage());
+        loginPage.navigate();
+        loginPage.login("string", "string");
+        mapPage = new MapPage(loginPage.getPage());
+        mapPage.clickUpload();
+        uploadPage = new UploadPage(mapPage.getPage());
+        uploadPage.logOut();
+        uploadPage.testURL(test, System.getProperty("app.url"));
     }
 }

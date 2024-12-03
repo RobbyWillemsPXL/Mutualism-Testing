@@ -9,7 +9,7 @@ import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Playwright;
 import org.junit.jupiter.api.*;
 
-public class TC21_UploadNavigationAsRegularUserTest {
+public class TC23_UploadNavigationAsRegularUserTest {
     private static Playwright playwright;
     private static Browser browser;
 
@@ -49,7 +49,7 @@ public class TC21_UploadNavigationAsRegularUserTest {
     }
 
     @Test
-    public void uploadNavigationAsRegUserTest() {
+    public void TC23_UploadNavigationAsRegularUserTest() {
         loginPageURL = System.getProperty("app.url");
         loginPage.navigateToUpload(System.getProperty("app.url") + "upload");
         loginPage.testURL(test, System.getProperty("app.url"));

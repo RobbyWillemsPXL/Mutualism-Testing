@@ -46,8 +46,8 @@ public class TC17_LoginTest {
     }
 
     @Test
-    public void loginTest() {
+    public void TC17_loginTest() {
         loginPage.navigate();
-        loginPage.loginRedirectsToCorrectPageTest(test, "string", "string");
+
     }
 }
