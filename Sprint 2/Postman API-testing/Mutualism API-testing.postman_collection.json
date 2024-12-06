@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "TC01 - Registreer als nieuwe gebruiker",
+			"name": "Test Scenario 1 - Registreer als nieuwe gebruiker",
 			"item": [
 				{
 					"name": "registreer nieuwe gebruiker",
@@ -45,10 +45,9 @@
 									"    pm.expect(pm.response.code).to.equal(200);\r",
 									"});\r",
 									"\r",
-									"pm.test(\"TC28_AT_Respons tijd is minder dan 1000ms\", function () {\r",
+									"pm.test(\"TC29_AT_Respons tijd is minder dan 1000ms\", function () {\r",
 									"  pm.expect(pm.response.responseTime).to.be.below(1000);\r",
 									"});\r",
-									"\r",
 									""
 								],
 								"type": "text/javascript",
@@ -80,10 +79,32 @@
 					},
 					"response": []
 				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
-			"name": "TC02 - Registreer als nieuwe gebruiker & login",
+			"name": "Test Scenario 2 - Registreer als nieuwe gebruiker & login",
 			"item": [
 				{
 					"name": "registreer nieuwe gebruiker",
@@ -259,10 +280,32 @@
 					},
 					"response": []
 				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
-			"name": "TC03 - Verifieer token",
+			"name": "Test Scenario 3 - Verifieer token",
 			"item": [
 				{
 					"name": "registreer nieuwe gebruiker",
@@ -299,7 +342,7 @@
 									"    pm.expect(pm.response.code).to.equal(200);\r",
 									"});\r",
 									"\r",
-									"pm.test(\"TC38_AT_Respons tijd is minder dan 10000ms\", function () {\r",
+									"pm.test(\"TC38_AT_Respons tijd is minder dan 1000ms\", function () {\r",
 									"  pm.expect(pm.response.responseTime).to.be.below(1000);\r",
 									"});\r",
 									""
@@ -488,10 +531,32 @@
 					},
 					"response": []
 				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
-			"name": "TC04 - Login met onbestaande gebruiker",
+			"name": "Test Scenario 4- Login met onbestaande gebruiker",
 			"item": [
 				{
 					"name": "login",
@@ -579,10 +644,32 @@
 					},
 					"response": []
 				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
-			"name": "TC05 - Login met bestaande user met fout password",
+			"name": "Test Scenario 5 - Login met bestaande user met fout password",
 			"item": [
 				{
 					"name": "registreer nieuwe gebruiker",
@@ -686,8 +773,7 @@
 									"    const response = pm.response.json();\r",
 									"    pm.expect(response.detail.success).to.be.false;\r",
 									"    pm.expect(response.detail.message).to.eql(\"Incorrect username or password\");\r",
-									"});\r",
-									""
+									"});"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -743,6 +829,54 @@
 						}
 					},
 					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Test Scenario 6",
+			"item": [],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		}
