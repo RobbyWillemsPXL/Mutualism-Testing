@@ -60,7 +60,7 @@ public class TC24_UploadFileTestRedirectTest {
     }
 
     @Test
-    public void TC24_UploadFileTestRedirectTest() {
+    public void TC24_AT_UploadFileTestRedirectTest() {
 
         loginPage = new LoginPage(context.newPage());
 

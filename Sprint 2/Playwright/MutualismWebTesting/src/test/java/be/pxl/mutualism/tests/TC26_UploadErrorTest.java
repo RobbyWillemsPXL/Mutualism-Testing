@@ -57,7 +57,7 @@ public class TC26_UploadErrorTest {
         context.close();
     }
     @Test
-    public void TC26_uploadErrorVisibleTest() {
+    public void TC26_AT_uploadErrorVisibleTest() {
         System.out.println("test start");
         loginPage = new LoginPage(context.newPage());
         loginPage.navigate();

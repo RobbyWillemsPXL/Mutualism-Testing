@@ -80,6 +80,8 @@ public class UploadPage {
         page.navigate(URL);
     }
     public void verifyErrorVisibility(ExtentTest test) {
+        naamErrorSelector.waitFor();
+        beschrijvingErrorSelector.waitFor();
         boolean isNaamErrorVisible = naamErrorSelector.isVisible();
         boolean isBeschrijvingErrorVisible = beschrijvingErrorSelector.isVisible();
 

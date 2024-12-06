@@ -47,7 +47,7 @@ public class TC22_ContinueAsGuestNavigationTest {
     }
 
     @Test
-    public void TC22_ContinueAsGuestNavigationTest() {
+    public void TC22_AT_ContinueAsGuestNavigationTest() {
         loginPage.navigate();
         loginPage.loginRedirectsToCorrectPageTest(test);
     }

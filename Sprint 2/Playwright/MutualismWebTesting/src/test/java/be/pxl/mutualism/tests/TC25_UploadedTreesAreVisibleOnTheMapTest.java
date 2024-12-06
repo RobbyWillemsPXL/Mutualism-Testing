@@ -57,7 +57,7 @@
 //    }
 //
 //    @Test
-//    public void TC25_uploadTreeVisibleOnTheMapTest() {
+//    public void TC25_AT_uploadTreeVisibleOnTheMapTest() {
 //        loginPage = new LoginPage(context.newPage());
 //        loginPage.navigate();
 //        loginPage.login("string", "string");

@@ -46,7 +46,7 @@ public class TC18_LoginWithWrongCredentialsTest {
     }
 
     @Test
-    public void TC18_LoginWithWrongCredentialsTest() {
+    public void TC18_AT_LoginWithWrongCredentialsTest() {
         loginPage.navigate();
         loginPage.faultyLoginErrorMessageTest(test, "string", "wrong");
         loginPage.faultLoginDoesNotRedirectTest(test, "string", "wrong");

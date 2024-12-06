@@ -51,7 +51,7 @@ public class TC19_AdminNavigationTest {
     }
 
     @Test
-    public void TC19_AdminNavigationTest() {
+    public void TC19_AT_AdminNavigationTest() {
         loginPage.navigate();
         loginPage.login("string", "string");
 

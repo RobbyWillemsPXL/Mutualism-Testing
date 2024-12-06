@@ -46,7 +46,7 @@ public class TC17_LoginTest {
     }
 
     @Test
-    public void TC17_loginTest() {
+    public void TC17_AT_loginTest() {
         loginPage.navigate();
 
     }

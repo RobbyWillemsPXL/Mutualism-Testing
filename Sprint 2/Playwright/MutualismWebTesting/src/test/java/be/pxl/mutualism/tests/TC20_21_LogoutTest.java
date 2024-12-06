@@ -49,7 +49,7 @@ public class TC20_21_LogoutTest {
     }
 
     @Test
-    public void TC20_logoutFromMapPageTest() {
+    public void TC20_AT_logoutFromMapPageTest() {
         test = ReporterFactory.createTest("TC20a_LogoutTest - logoutFromMapPageTest",
                 "Test that checks the" +
                 " logout functionality from the map page.");
@@ -61,7 +61,7 @@ public class TC20_21_LogoutTest {
     }
 
     @Test
-    public void TC21_logoutFromUploadPageTest() {
+    public void TC21_AT_logoutFromUploadPageTest() {
         test = ReporterFactory.createTest("TC20b_LogoutTest - logoutFromUploadPageTest",
                 "Test that checks the" +
                 " logout functionality from the upload page.");

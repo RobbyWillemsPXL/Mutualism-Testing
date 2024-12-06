@@ -49,7 +49,7 @@ public class TC23_UploadNavigationAsRegularUserTest {
     }
 
     @Test
-    public void TC23_UploadNavigationAsRegularUserTest() {
+    public void TC23_AT_UploadNavigationAsRegularUserTest() {
         loginPageURL = System.getProperty("app.url");
         loginPage.navigateToUpload(System.getProperty("app.url") + "upload");
         loginPage.testURL(test, System.getProperty("app.url"));
