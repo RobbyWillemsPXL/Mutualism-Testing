@@ -1,0 +1,928 @@
+{
+	"info": {
+		"_postman_id": "9a248c49-8ddf-493e-b568-6da1a9d9ca0e",
+		"name": "Mutualism API-testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24983437"
+	},
+	"item": [
+		{
+			"name": "Test Scenario 1 - Registreer als nieuwe gebruiker",
+			"item": [
+				{
+					"name": "registreer nieuwe gebruiker",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"baseUrl\", \"http://localhost:8000\");\r",
+									"const randomUsername = pm.variables.replaceIn('{{$randomUserName}}');\r",
+									"const randomPassword = pm.variables.replaceIn('{{$randomPassword}}');\r",
+									"\r",
+									"// Sla de gegenereerde gegevens op als variabelen\r",
+									"pm.collectionVariables.set(\"username\", randomUsername);\r",
+									"pm.collectionVariables.set(\"password\", randomPassword);\r",
+									"\r",
+									"// Log de gegenereerde waarden voor controle\r",
+									"console.log(\"Generated Username:\", randomUsername);\r",
+									"console.log(\"Generated Password:\", randomPassword);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"TC27_AT_Message is correct\", function () {\r",
+									"    pm.expect(pm.response.json().message).to.eql(\"User created successfully\");\r",
+									"});\r",
+									"pm.test(\"TC28_AT_Respons statuscode is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"TC29_AT_Respons tijd is minder dan 1000ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"{{password}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Test Scenario 2 - Registreer als nieuwe gebruiker & login",
+			"item": [
+				{
+					"name": "registreer nieuwe gebruiker",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const randomUsername = pm.variables.replaceIn('{{$randomUserName}}');\r",
+									"const randomPassword = pm.variables.replaceIn('{{$randomPassword}}');\r",
+									"\r",
+									"// Sla de gegenereerde gegevens op als variabelen\r",
+									"pm.collectionVariables.set(\"username\", randomUsername);\r",
+									"pm.collectionVariables.set(\"password\", randomPassword);\r",
+									"\r",
+									"// Log de gegenereerde waarden voor controle\r",
+									"console.log(\"Generated Username:\", randomUsername);\r",
+									"console.log(\"Generated Password:\", randomPassword);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"TC30_AT_Message is correct\", function () {\r",
+									"    pm.expect(pm.response.json().message).to.eql(\"User created successfully\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"TC31_AT_Responsstatuscode is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"TC32_AT_Respons tijd is minder dan 1000ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"{{password}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(pm.collectionVariables.get(\"username\"));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse de JSON-respons\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"// Sla de access_token op in een collectie-variabele\r",
+									"pm.collectionVariables.set(\"authToken\", response.data.access_token);\r",
+									"\r",
+									"\r",
+									"// Log de access token voor controle\r",
+									"console.log(\"Access Token opgeslagen:\", pm.collectionVariables.get(\"authToken\"));\r",
+									"\r",
+									"pm.test(\"TC33_AT_Responsstatuscode is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// Test dat de data object de juiste velden en waarden bevat\r",
+									"pm.test(\"TC34_AT_Data object bevat correcte velden\", function () {\r",
+									"    var data = pm.response.json().data;\r",
+									"    \r",
+									"    // Controleer dat het 'data' object een 'access_token' en 'token_type' bevat\r",
+									"    pm.expect(data).to.have.property(\"access_token\");\r",
+									"    pm.expect(data).to.have.property(\"token_type\", \"bearer\");\r",
+									"    \r",
+									"    // Controleer dat 'access_token' een niet-lege string is\r",
+									"    pm.expect(data.access_token).to.be.a(\"string\").that.is.not.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"TC35_AT_Respons tijd is minder dan 1000ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "string",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "string",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Test Scenario 3 - Verifieer token",
+			"item": [
+				{
+					"name": "registreer nieuwe gebruiker",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const randomUsername = pm.variables.replaceIn('{{$randomUserName}}');\r",
+									"const randomPassword = pm.variables.replaceIn('{{$randomPassword}}');\r",
+									"\r",
+									"// Sla de gegenereerde gegevens op als variabelen\r",
+									"pm.collectionVariables.set(\"username\", randomUsername);\r",
+									"pm.collectionVariables.set(\"password\", randomPassword);\r",
+									"\r",
+									"// Log de gegenereerde waarden voor controle\r",
+									"console.log(\"Generated Username:\", randomUsername);\r",
+									"console.log(\"Generated Password:\", randomPassword);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"TC36_AT_Message is correct\", function () {\r",
+									"    pm.expect(pm.response.json().message).to.eql(\"User created successfully\");\r",
+									"});\r",
+									"pm.test(\"TC37_AT_Responsstatuscode is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"TC38_AT_Respons tijd is minder dan 1000ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"{{password}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse de JSON-respons\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"// Sla de access_token op in een collectie-variabele\r",
+									"pm.collectionVariables.set(\"authToken\", response.data.access_token);\r",
+									"\r",
+									"\r",
+									"// Log de access token voor controle\r",
+									"console.log(\"Access Token opgeslagen:\", pm.collectionVariables.get(\"authToken\"));\r",
+									"\r",
+									"pm.test(\"TC39_AT_Responsstatuscode is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// Test dat de data object de juiste velden en waarden bevat\r",
+									"pm.test(\"TC40_AT_Data object bevat correcte velden\", function () {\r",
+									"    var data = pm.response.json().data;\r",
+									"    \r",
+									"    // Controleer dat het 'data' object een 'access_token' en 'token_type' bevat\r",
+									"    pm.expect(data).to.have.property(\"access_token\");\r",
+									"    pm.expect(data).to.have.property(\"token_type\", \"bearer\");\r",
+									"    \r",
+									"    // Controleer dat 'access_token' een niet-lege string is\r",
+									"    pm.expect(data.access_token).to.be.a(\"string\").that.is.not.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"TC41_AT_Respons tijd is minder dan 1000ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(pm.collectionVariables.get(\"username\"));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "string",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "string",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verifieer token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test op de respons tijd\r",
+									"pm.test(\"TC42_AT_Respons tijd is minder dan 1000ms\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"// Test of de respons een 'message'-eigenschap bevat\r",
+									"pm.test(\"TC43_AT_Respons bevat een 'message'-eigenschap\", () => {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response).to.have.property('message');\r",
+									"});\r",
+									"\r",
+									"// Test op de statuscode van de respons\r",
+									"pm.test(\"TC44_AT_Statuscode is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Test of de waarde van 'message' correct is\r",
+									"pm.test(\"TC45_AT_Message heeft de waarde 'Token is valid'\", () => {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response.message).to.eql(\"Token is valid\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/verify-token/{{authToken}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"verify-token",
+								"{{authToken}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Test Scenario 4- Login met onbestaande gebruiker",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"TC46_AT_Responsstatuscode is 401\", function () {\r",
+									"  pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"TC47_AT_Respons tijd is minder dan 1000ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"TC48_AT_Error message is correct\", function () {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response.detail.success).to.be.false;\r",
+									"    pm.expect(response.detail.message).to.eql(\"Incorrect username or password\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "wronguser",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "wrongpassword",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "string",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "string",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Test Scenario 5 - Login met bestaande user met fout password",
+			"item": [
+				{
+					"name": "registreer nieuwe gebruiker",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const randomUsername = pm.variables.replaceIn('{{$randomUserName}}');\r",
+									"const randomPassword = pm.variables.replaceIn('{{$randomPassword}}');\r",
+									"\r",
+									"// Sla de gegenereerde gegevens op als variabelen\r",
+									"pm.collectionVariables.set(\"username\", randomUsername);\r",
+									"pm.collectionVariables.set(\"password\", randomPassword);\r",
+									"\r",
+									"// Log de gegenereerde waarden voor controle\r",
+									"console.log(\"Generated Username:\", randomUsername);\r",
+									"console.log(\"Generated Password:\", randomPassword);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"TC49_AT_Message is correct\", function () {\r",
+									"    pm.expect(pm.response.json().message).to.eql(\"User created successfully\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"TC50_AT_Responsstatuscode is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"TC51_AT_Respons tijd is minder dan 1000ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"{{password}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse de JSON-respons\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"TC52_AT_Responsstatuscode is 401\", function () {\r",
+									"  pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"TC53_AT_Respons tijd is minder dan 1000ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"TC54_AT_Error message is correct\", function () {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response.detail.success).to.be.false;\r",
+									"    pm.expect(response.detail.message).to.eql(\"Incorrect username or password\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "wrongpassword",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "string",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "string",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Test Scenario 6",
+			"item": [],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "authToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "username",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "password",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
