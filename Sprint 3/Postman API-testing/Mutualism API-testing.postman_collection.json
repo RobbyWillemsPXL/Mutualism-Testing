@@ -1859,6 +1859,28 @@
 								"type": "text/javascript",
 								"packages": {}
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Retrieve the token from the collection variables\r",
+									"let token = pm.collectionVariables.get(\"authToken\");\r",
+									"\r",
+									"// Add the Authorization header dynamically\r",
+									"if (token) {\r",
+									"    pm.request.headers.add({\r",
+									"        key: \"Authorization\",\r",
+									"        value: `Bearer ${token}`\r",
+									"    });\r",
+									"    console.log(\"Authorization header set with token:\", token);\r",
+									"} else {\r",
+									"    console.error(\"No authToken found in collection variables!\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
 						}
 					],
 					"request": {
@@ -2184,8 +2206,23 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"packages": {},
-								"type": "text/javascript"
+								"exec": [
+									"// Retrieve the token from the collection variables\r",
+									"let token = pm.collectionVariables.get(\"authToken\");\r",
+									"\r",
+									"// Add the Authorization header dynamically\r",
+									"if (token) {\r",
+									"    pm.request.headers.add({\r",
+									"        key: \"Authorization\",\r",
+									"        value: `Bearer ${token}`\r",
+									"    });\r",
+									"    console.log(\"Authorization header set with token:\", token);\r",
+									"} else {\r",
+									"    console.error(\"No authToken found in collection variables!\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -2496,6 +2533,28 @@
 									"    pm.expect(responseBody.diameter).to.eql(33);\r",
 									"});\r",
 									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Retrieve the token from the collection variables\r",
+									"let token = pm.collectionVariables.get(\"authToken\");\r",
+									"\r",
+									"// Add the Authorization header dynamically\r",
+									"if (token) {\r",
+									"    pm.request.headers.add({\r",
+									"        key: \"Authorization\",\r",
+									"        value: `Bearer ${token}`\r",
+									"    });\r",
+									"    console.log(\"Authorization header set with token:\", token);\r",
+									"} else {\r",
+									"    console.error(\"No authToken found in collection variables!\");\r",
+									"}"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -2826,6 +2885,28 @@
 									"    pm.expect(responseBody.detail).to.eql(\"Tree not found\");\r",
 									"});\r",
 									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Retrieve the token from the collection variables\r",
+									"let token = pm.collectionVariables.get(\"authToken\");\r",
+									"\r",
+									"// Add the Authorization header dynamically\r",
+									"if (token) {\r",
+									"    pm.request.headers.add({\r",
+									"        key: \"Authorization\",\r",
+									"        value: `Bearer ${token}`\r",
+									"    });\r",
+									"    console.log(\"Authorization header set with token:\", token);\r",
+									"} else {\r",
+									"    console.error(\"No authToken found in collection variables!\");\r",
+									"}"
 								],
 								"type": "text/javascript",
 								"packages": {}
