@@ -855,8 +855,2009 @@
 			]
 		},
 		{
-			"name": "Test Scenario 6",
-			"item": [],
+			"name": "Test Scenario 6 - Voeg boom toe als admin",
+			"item": [
+				{
+					"name": "registreer nieuwe gebruiker",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const randomUsername = pm.variables.replaceIn('{{$randomUserName}}');\r",
+									"const randomPassword = pm.variables.replaceIn('{{$randomPassword}}');\r",
+									"\r",
+									"// Sla de gegenereerde gegevens op als variabelen\r",
+									"pm.collectionVariables.set(\"username\", randomUsername);\r",
+									"pm.collectionVariables.set(\"password\", randomPassword);\r",
+									"\r",
+									"// Log de gegenereerde waarden voor controle\r",
+									"console.log(\"Generated Username:\", randomUsername);\r",
+									"console.log(\"Generated Password:\", randomPassword);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"TC56_AT_Message is correct\", function () {\r",
+									"    pm.expect(pm.response.json().message).to.eql(\"User created successfully\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"TC57_AT_Responsstatuscode is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"TC58_AT_Respons tijd is minder dan 1000ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"{{password}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(pm.collectionVariables.get(\"username\"));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse de JSON-respons\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"// Sla de access_token op in een collectie-variabele\r",
+									"pm.collectionVariables.set(\"authToken\", response.data.access_token);\r",
+									"\r",
+									"// Log de access token voor controle\r",
+									"console.log(\"Access Token opgeslagen:\", pm.collectionVariables.get(\"authToken\"));\r",
+									"\r",
+									"pm.test(\"TC59_AT_Responsstatuscode is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Test dat de data object de juiste velden en waarden bevat\r",
+									"pm.test(\"TC60_AT_Data object bevat correcte velden\", function () {\r",
+									"    var data = pm.response.json().data;\r",
+									"    \r",
+									"    // Controleer dat het 'data' object een 'access_token' en 'token_type' bevat\r",
+									"    pm.expect(data).to.have.property(\"access_token\");\r",
+									"    pm.expect(data).to.have.property(\"token_type\", \"bearer\");\r",
+									"    \r",
+									"    // Controleer dat 'access_token' een niet-lege string is\r",
+									"    pm.expect(data.access_token).to.be.a(\"string\").that.is.not.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"TC61_AT_Respons tijd is minder dan 1000ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "string",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "string",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add tree",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Retrieve the token from the collection variables\r",
+									"let token = pm.collectionVariables.get(\"authToken\");\r",
+									"\r",
+									"// Add the Authorization header dynamically\r",
+									"if (token) {\r",
+									"    pm.request.headers.add({\r",
+									"        key: \"Authorization\",\r",
+									"        value: `Bearer ${token}`\r",
+									"    });\r",
+									"    console.log(\"Authorization header set with token:\", token);\r",
+									"} else {\r",
+									"    console.error(\"No authToken found in collection variables!\");\r",
+									"}\r",
+									"\r",
+									"// Genereer willekeurige latitude en longitude tussen 0 en 50\r",
+									"const randomLatitude = (Math.random() * 50).toFixed(6);  // Zorg ervoor dat het 6 decimalen heeft\r",
+									"const randomLongitude = (Math.random() * 50).toFixed(6);  // Zorg ervoor dat het 6 decimalen heeft\r",
+									"\r",
+									"// Zet deze waarden als omgevingsvariabelen\r",
+									"pm.environment.set(\"latitude\", randomLatitude);\r",
+									"pm.environment.set(\"longitude\", randomLongitude);\r",
+									"\r",
+									"console.log(randomLatitude);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"\r",
+									"// Test of de statuscode 200 is\r",
+									"pm.test(\"TC62_AT_Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Test of de responstijd minder dan 1000 ms is\r",
+									"pm.test(\"TC63_AT_Response time is less than 1000 ms\", function () {\r",
+									"    pm.response.to.have.responseTime.lessThan(1000);\r",
+									"});\r",
+									"\r",
+									"// Test of de response body de verwachte velden bevat\r",
+									"pm.test(\"TC64_AT_Response contains correct fields\", function () {\r",
+									"    pm.expect(pm.response.json()).to.have.all.keys(\"id\", \"name\", \"added_at\", \"latitude\", \"longitude\", \"description\", \"height\", \"diameter\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"random name\",\r\n  \"description\": \"random description\",\r\n  \"latitude\": {{latitude}},\r\n  \"longitude\": {{longitude}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/trees",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trees"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Test Scenario 7 - Voeg boom toe als gewone gebruiker",
+			"item": [
+				{
+					"name": "add tree",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Basic test for status code\r",
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"// Basic test for response time\r",
+									"pm.test(\"TC65_AT_Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"// Basic test for response body properties\r",
+									"pm.test(\"TC66_AT_Response body has property 'detail'\", function () {\r",
+									"    pm.response.to.have.jsonBody('detail');\r",
+									"});\r",
+									"\r",
+									"// Parse de werkelijke response body\r",
+									"const actualResponse = pm.response.json();\r",
+									"\r",
+									"const expectedResponse = { detail: \"Not authenticated\" };\r",
+									"\r",
+									"// Test of de response gelijk is aan de verwachte response\r",
+									"pm.test(\"TC67_AT_Response body is 'Not authenticated'\", function () {\r",
+									"    pm.expect(actualResponse).to.eql(expectedResponse);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"string\",\r\n  \"description\": \"string\",\r\n  \"latitude\": 0,\r\n  \"longitude\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/trees",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trees"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Test Scenario 8 - Vraag lijst met bomen op",
+			"item": [
+				{
+					"name": "New Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test for status code\r",
+									"pm.test(\"TC68_AT_Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Test for response time\r",
+									"pm.test(\"TC69_AT_Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"const responseArray = pm.response.json();\r",
+									"\r",
+									"pm.test(\"TC70_AT_Each tree object has required fields\", function () {\r",
+									"    responseArray.forEach(function(tree) {\r",
+									"        pm.expect(tree).to.have.all.keys(\"id\", \"name\", \"added_at\", \"latitude\", \"longitude\", \"description\", \"height\", \"diameter\");\r",
+									"    });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{baseUrl}}/trees",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trees"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Test Scenario 9 - Voeg bestaande boom toe",
+			"item": [
+				{
+					"name": "registreer nieuwe gebruiker",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const randomUsername = pm.variables.replaceIn('{{$randomUserName}}');\r",
+									"const randomPassword = pm.variables.replaceIn('{{$randomPassword}}');\r",
+									"\r",
+									"// Sla de gegenereerde gegevens op als variabelen\r",
+									"pm.collectionVariables.set(\"username\", randomUsername);\r",
+									"pm.collectionVariables.set(\"password\", randomPassword);\r",
+									"\r",
+									"// Log de gegenereerde waarden voor controle\r",
+									"console.log(\"Generated Username:\", randomUsername);\r",
+									"console.log(\"Generated Password:\", randomPassword);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"{{password}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse de JSON-respons\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"// Sla de access_token op in een collectie-variabele\r",
+									"pm.collectionVariables.set(\"authToken\", response.data.access_token);\r",
+									"\r",
+									"\r",
+									"// Log de access token voor controle\r",
+									"console.log(\"Access Token opgeslagen:\", pm.collectionVariables.get(\"authToken\"));\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(pm.collectionVariables.get(\"username\"));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "string",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "string",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add tree (first)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Retrieve the token from the collection variables\r",
+									"let token = pm.collectionVariables.get(\"authToken\");\r",
+									"\r",
+									"// Add the Authorization header dynamically\r",
+									"if (token) {\r",
+									"    pm.request.headers.add({\r",
+									"        key: \"Authorization\",\r",
+									"        value: `Bearer ${token}`\r",
+									"    });\r",
+									"    console.log(\"Authorization header set with token:\", token);\r",
+									"} else {\r",
+									"    console.error(\"No authToken found in collection variables!\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"string\",\r\n  \"description\": \"string\",\r\n  \"latitude\": 1,\r\n  \"longitude\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/trees",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add tree (second)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Retrieve the token from the collection variables\r",
+									"let token = pm.collectionVariables.get(\"authToken\");\r",
+									"\r",
+									"// Add the Authorization header dynamically\r",
+									"if (token) {\r",
+									"    pm.request.headers.add({\r",
+									"        key: \"Authorization\",\r",
+									"        value: `Bearer ${token}`\r",
+									"    });\r",
+									"    console.log(\"Authorization header set with token:\", token);\r",
+									"} else {\r",
+									"    console.error(\"No authToken found in collection variables!\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Basic test for status code\r",
+									"pm.test(\"TC71_AT_Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"// Basic test for response time\r",
+									"pm.test(\"TC72_AT_Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"// Basic test for response body properties\r",
+									"pm.test(\"TC73_AT_Response body has property 'detail'\", function () {\r",
+									"    pm.response.to.have.jsonBody('detail');\r",
+									"});\r",
+									"\r",
+									"// Controleer alleen de waarde van \"detail\"\r",
+									"pm.test(\"TC74_AT_Response 'detail' is correct\", function () {\r",
+									"    const actualDetail = pm.response.json().detail;\r",
+									"    pm.expect(actualDetail).to.eql(\"Tree already exists!\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"string\",\r\n  \"description\": \"string\",\r\n  \"latitude\": 1,\r\n  \"longitude\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/trees",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trees"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Test Scenario 10 - Verwijder boom",
+			"item": [
+				{
+					"name": "registreer nieuwe gebruiker",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const randomUsername = pm.variables.replaceIn('{{$randomUserName}}');\r",
+									"const randomPassword = pm.variables.replaceIn('{{$randomPassword}}');\r",
+									"\r",
+									"// Sla de gegenereerde gegevens op als variabelen\r",
+									"pm.collectionVariables.set(\"username\", randomUsername);\r",
+									"pm.collectionVariables.set(\"password\", randomPassword);\r",
+									"\r",
+									"// Log de gegenereerde waarden voor controle\r",
+									"console.log(\"Generated Username:\", randomUsername);\r",
+									"console.log(\"Generated Password:\", randomPassword);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"{{password}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse de JSON-respons\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"// Sla de access_token op in een collectie-variabele\r",
+									"pm.collectionVariables.set(\"authToken\", response.data.access_token);\r",
+									"\r",
+									"\r",
+									"// Log de access token voor controle\r",
+									"console.log(\"Access Token opgeslagen:\", pm.collectionVariables.get(\"authToken\"));\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(pm.collectionVariables.get(\"username\"));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "string",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "string",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add tree",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Retrieve the token from the collection variables\r",
+									"let token = pm.collectionVariables.get(\"authToken\");\r",
+									"\r",
+									"// Add the Authorization header dynamically\r",
+									"if (token) {\r",
+									"    pm.request.headers.add({\r",
+									"        key: \"Authorization\",\r",
+									"        value: `Bearer ${token}`\r",
+									"    });\r",
+									"    console.log(\"Authorization header set with token:\", token);\r",
+									"} else {\r",
+									"    console.error(\"No authToken found in collection variables!\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"string\",\r\n  \"description\": \"string\",\r\n  \"latitude\": 51,\r\n  \"longitude\": 51\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/trees",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get trees",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Verkrijg de response als een JSON-array\r",
+									"const responseArray = pm.response.json();\r",
+									"\r",
+									"// Haal het id van de laatste boom op\r",
+									"const lastTreeId = responseArray[responseArray.length - 1].id;\r",
+									"\r",
+									"// Sla het id op als een environment variabele\r",
+									"pm.environment.set(\"lastTreeId\", lastTreeId);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/trees",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete last tree",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test dat de statuscode 200 is\r",
+									"pm.test(\"TC75_AT_Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Test dat de responstijd minder dan 1000 ms is\r",
+									"pm.test(\"TC76_AT_Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"// Test dat het bericht correct is\r",
+									"pm.test(\"TC77_AT_Message is 'Tree deleted successfully'\", function () {\r",
+									"    const responseBody = pm.response.json();\r",
+									"    pm.expect(responseBody.message).to.eql(\"Tree deleted successfully\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/trees/{{lastTreeId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trees",
+								"{{lastTreeId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Test Scenario 11 - Verwijder onbestaande boom",
+			"item": [
+				{
+					"name": "registreer nieuwe gebruiker",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const randomUsername = pm.variables.replaceIn('{{$randomUserName}}');\r",
+									"const randomPassword = pm.variables.replaceIn('{{$randomPassword}}');\r",
+									"\r",
+									"// Sla de gegenereerde gegevens op als variabelen\r",
+									"pm.collectionVariables.set(\"username\", randomUsername);\r",
+									"pm.collectionVariables.set(\"password\", randomPassword);\r",
+									"\r",
+									"// Log de gegenereerde waarden voor controle\r",
+									"console.log(\"Generated Username:\", randomUsername);\r",
+									"console.log(\"Generated Password:\", randomPassword);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"{{password}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse de JSON-respons\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"// Sla de access_token op in een collectie-variabele\r",
+									"pm.collectionVariables.set(\"authToken\", response.data.access_token);\r",
+									"\r",
+									"\r",
+									"// Log de access token voor controle\r",
+									"console.log(\"Access Token opgeslagen:\", pm.collectionVariables.get(\"authToken\"));\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(pm.collectionVariables.get(\"username\"));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "string",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "string",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add tree",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Retrieve the token from the collection variables\r",
+									"let token = pm.collectionVariables.get(\"authToken\");\r",
+									"\r",
+									"// Add the Authorization header dynamically\r",
+									"if (token) {\r",
+									"    pm.request.headers.add({\r",
+									"        key: \"Authorization\",\r",
+									"        value: `Bearer ${token}`\r",
+									"    });\r",
+									"    console.log(\"Authorization header set with token:\", token);\r",
+									"} else {\r",
+									"    console.error(\"No authToken found in collection variables!\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"string\",\r\n  \"description\": \"string\",\r\n  \"latitude\": 51,\r\n  \"longitude\": 51\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/trees",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get trees",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Verkrijg de response als een JSON-array\r",
+									"const responseArray = pm.response.json();\r",
+									"\r",
+									"// Controleer of de array niet leeg is\r",
+									"if (responseArray.length > 0) {\r",
+									"    // Haal de hoogste bestaande ID op uit de lijst\r",
+									"    const highestTreeId = Math.max(...responseArray.map(tree => tree.id));\r",
+									"    \r",
+									"    // Creëer een onbestaand ID door de hoogste ID met 1 te verhogen\r",
+									"    const nonExistentTreeId = highestTreeId + 1;\r",
+									"\r",
+									"    // Sla het onbestaand ID op als een environment variabele\r",
+									"    pm.environment.set(\"lastTreeId\", nonExistentTreeId);\r",
+									"    console.log(\"Non-existent Tree ID saved:\", nonExistentTreeId);\r",
+									"} else {\r",
+									"    console.log(\"Response array is empty, no ID available.\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/trees",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete non-existing tree",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"    // Test dat de statuscode 404 is\r",
+									"pm.test(\"TC78_AT_Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"// Test dat de responstijd minder dan 1000 ms is\r",
+									"pm.test(\"TC_79_AT_Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"// Test dat het detail bericht correct is\r",
+									"pm.test(\"TC_80_ATMessage is 'Tree not found'\", function () {\r",
+									"    const responseBody = pm.response.json();\r",
+									"    pm.expect(responseBody.detail).to.eql(\"Tree not found\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"packages": {},
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/trees/{{lastTreeId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trees",
+								"{{lastTreeId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Test Scenario 12 - Update boom",
+			"item": [
+				{
+					"name": "registreer nieuwe gebruiker",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const randomUsername = pm.variables.replaceIn('{{$randomUserName}}');\r",
+									"const randomPassword = pm.variables.replaceIn('{{$randomPassword}}');\r",
+									"\r",
+									"// Sla de gegenereerde gegevens op als variabelen\r",
+									"pm.collectionVariables.set(\"username\", randomUsername);\r",
+									"pm.collectionVariables.set(\"password\", randomPassword);\r",
+									"\r",
+									"// Log de gegenereerde waarden voor controle\r",
+									"console.log(\"Generated Username:\", randomUsername);\r",
+									"console.log(\"Generated Password:\", randomPassword);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"{{password}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse de JSON-respons\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"// Sla de access_token op in een collectie-variabele\r",
+									"pm.collectionVariables.set(\"authToken\", response.data.access_token);\r",
+									"\r",
+									"\r",
+									"// Log de access token voor controle\r",
+									"console.log(\"Access Token opgeslagen:\", pm.collectionVariables.get(\"authToken\"));\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(pm.collectionVariables.get(\"username\"));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "string",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "string",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add tree",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Retrieve the token from the collection variables\r",
+									"let token = pm.collectionVariables.get(\"authToken\");\r",
+									"\r",
+									"// Add the Authorization header dynamically\r",
+									"if (token) {\r",
+									"    pm.request.headers.add({\r",
+									"        key: \"Authorization\",\r",
+									"        value: `Bearer ${token}`\r",
+									"    });\r",
+									"    console.log(\"Authorization header set with token:\", token);\r",
+									"} else {\r",
+									"    console.error(\"No authToken found in collection variables!\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"string\",\r\n  \"description\": \"string\",\r\n  \"latitude\": 51,\r\n  \"longitude\": 51\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/trees",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get trees",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Verkrijg de response als een JSON-array\r",
+									"const responseArray = pm.response.json();\r",
+									"\r",
+									"// Haal het id van de laatste boom op\r",
+									"const lastTreeId = responseArray[responseArray.length - 1].id;\r",
+									"\r",
+									"// Sla het id op als een environment variabele\r",
+									"pm.environment.set(\"lastTreeId\", lastTreeId);\r",
+									"console.log(lastTreeId);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/trees",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update last tree",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test dat de statuscode 200 is\r",
+									"pm.test(\"TC81_AT_Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Test dat de responstijd minder dan 1000 ms is\r",
+									"pm.test(\"TC82_AT_Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"// Test dat height en diameter beide 33 zijn\r",
+									"pm.test(\"TC83_AT_Height and diameter are both 33\", function () {\r",
+									"    const responseBody = pm.response.json();\r",
+									"    pm.expect(responseBody.height).to.eql(33);\r",
+									"    pm.expect(responseBody.diameter).to.eql(33);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"height\": 33,\r\n  \"diameter\": 33\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/trees/{{lastTreeId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trees",
+								"{{lastTreeId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Test Scenario 13 - Update onbestaande boom",
+			"item": [
+				{
+					"name": "registreer nieuwe gebruiker",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const randomUsername = pm.variables.replaceIn('{{$randomUserName}}');\r",
+									"const randomPassword = pm.variables.replaceIn('{{$randomPassword}}');\r",
+									"\r",
+									"// Sla de gegenereerde gegevens op als variabelen\r",
+									"pm.collectionVariables.set(\"username\", randomUsername);\r",
+									"pm.collectionVariables.set(\"password\", randomPassword);\r",
+									"\r",
+									"// Log de gegenereerde waarden voor controle\r",
+									"console.log(\"Generated Username:\", randomUsername);\r",
+									"console.log(\"Generated Password:\", randomPassword);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"{{password}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse de JSON-respons\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"// Sla de access_token op in een collectie-variabele\r",
+									"pm.collectionVariables.set(\"authToken\", response.data.access_token);\r",
+									"\r",
+									"\r",
+									"// Log de access token voor controle\r",
+									"console.log(\"Access Token opgeslagen:\", pm.collectionVariables.get(\"authToken\"));\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(pm.collectionVariables.get(\"username\"));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "string",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "string",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add tree",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Retrieve the token from the collection variables\r",
+									"let token = pm.collectionVariables.get(\"authToken\");\r",
+									"\r",
+									"// Add the Authorization header dynamically\r",
+									"if (token) {\r",
+									"    pm.request.headers.add({\r",
+									"        key: \"Authorization\",\r",
+									"        value: `Bearer ${token}`\r",
+									"    });\r",
+									"    console.log(\"Authorization header set with token:\", token);\r",
+									"} else {\r",
+									"    console.error(\"No authToken found in collection variables!\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"string\",\r\n  \"description\": \"string\",\r\n  \"latitude\": 51,\r\n  \"longitude\": 51\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/trees",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get trees",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Verkrijg de response als een JSON-array\r",
+									"const responseArray = pm.response.json();\r",
+									"\r",
+									"// Controleer of de array niet leeg is\r",
+									"if (responseArray.length > 0) {\r",
+									"    // Haal de hoogste bestaande ID op uit de lijst\r",
+									"    const highestTreeId = Math.max(...responseArray.map(tree => tree.id));\r",
+									"    \r",
+									"    // Creëer een onbestaand ID door de hoogste ID met 1 te verhogen\r",
+									"    const nonExistentTreeId = highestTreeId + 1;\r",
+									"\r",
+									"    // Sla het onbestaand ID op als een environment variabele\r",
+									"    pm.environment.set(\"lastTreeId\", nonExistentTreeId);\r",
+									"    console.log(\"Non-existent Tree ID saved:\", nonExistentTreeId);\r",
+									"} else {\r",
+									"    console.log(\"Response array is empty, no ID available.\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/trees",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update last tree",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test dat de statuscode 404 is\r",
+									"pm.test(\"TC84_AT_Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"// Test dat de responstijd minder dan 1000 ms is\r",
+									"pm.test(\"TC85_AT_Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"// Test dat het detail bericht 'Tree not found' is\r",
+									"pm.test(\"TC86_AT_Message is 'Tree not found'\", function () {\r",
+									"    const responseBody = pm.response.json();\r",
+									"    pm.expect(responseBody.detail).to.eql(\"Tree not found\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"height\": 33,\r\n  \"diameter\": 33\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/trees/{{lastTreeId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trees",
+								"{{lastTreeId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
 			"event": [
 				{
 					"listen": "prerequest",
