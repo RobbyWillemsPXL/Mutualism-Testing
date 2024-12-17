@@ -2515,7 +2515,6 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"const responseBody = pm.response.json();\r",
 									"\r",
 									"// Test dat de statuscode 200 is\r",
 									"pm.test(\"TC81_AT_Status code is 200\", function () {\r",
@@ -2881,8 +2880,7 @@
 									"\r",
 									"// Test dat het detail bericht 'Tree not found' is\r",
 									"pm.test(\"TC86_AT_Message is 'Tree not found'\", function () {\r",
-									"    const responseBody = pm.response.json();\r",
-									"    pm.expect(responseBody.detail).to.eql(\"Tree not found\");\r",
+									"    pm.expect(pm.response.json().detail).to.eql(\"Tree not found\");\r",
 									"});\r",
 									""
 								],
