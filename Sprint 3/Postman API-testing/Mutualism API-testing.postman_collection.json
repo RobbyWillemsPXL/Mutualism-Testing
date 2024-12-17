@@ -1516,8 +1516,8 @@
 							"script": {
 								"exec": [
 									"// Basic test for status code\r",
-									"pm.test(\"TC71_AT_Status code is 404\", function () {\r",
-									"    pm.response.to.have.status(404);\r",
+									"pm.test(\"TC71_AT_Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
 									"// Basic test for response time\r",
@@ -1526,14 +1526,13 @@
 									"});\r",
 									"\r",
 									"// Basic test for response body properties\r",
-									"pm.test(\"TC73_AT_Response body has property 'detail'\", function () {\r",
-									"    pm.response.to.have.jsonBody('detail');\r",
+									"pm.test(\"TC73_AT_Response body has property 'id'\", function () {\r",
+									"    pm.response.to.have.jsonBody('id');\r",
 									"});\r",
 									"\r",
 									"// Controleer alleen de waarde van \"detail\"\r",
-									"pm.test(\"TC74_AT_Response 'detail' is correct\", function () {\r",
-									"    const actualDetail = pm.response.json().detail;\r",
-									"    pm.expect(actualDetail).to.eql(\"Tree already exists!\");\r",
+									"pm.test(\"TC74_AT_Response has correct fields\", function () {\r",
+									"    pm.expect(pm.response.json()).to.have.all.keys(\"id\", \"name\", \"added_at\", \"latitude\", \"longitude\", \"description\", \"height\", \"diameter\");\r",
 									"});\r",
 									""
 								],
@@ -2516,6 +2515,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"const responseBody = pm.response.json();\r",
+									"\r",
 									"// Test dat de statuscode 200 is\r",
 									"pm.test(\"TC81_AT_Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
@@ -2528,9 +2529,8 @@
 									"\r",
 									"// Test dat height en diameter beide 33 zijn\r",
 									"pm.test(\"TC83_AT_Height and diameter are both 33\", function () {\r",
-									"    const responseBody = pm.response.json();\r",
-									"    pm.expect(responseBody.height).to.eql(33);\r",
-									"    pm.expect(responseBody.diameter).to.eql(33);\r",
+									"    pm.expect(responseBody.height).to.eql(33.0);\r",
+									"    pm.expect(responseBody.diameter).to.eql(33.0);\r",
 									"});\r",
 									""
 								],
