@@ -2529,8 +2529,8 @@
 									"\r",
 									"// Test dat height en diameter beide 33 zijn\r",
 									"pm.test(\"TC83_AT_Height and diameter are both 33\", function () {\r",
-									"    pm.expect(responseBody.height).to.eql(33.0);\r",
-									"    pm.expect(responseBody.diameter).to.eql(33.0);\r",
+									"    pm.expect(pm.response.json().height).to.eql(33.0);\r",
+									"    pm.expect(pm.response.json().diameter).to.eql(33.0);\r",
 									"});\r",
 									""
 								],
