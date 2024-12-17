@@ -69,7 +69,7 @@ public class TC26_UploadErrorTest {
 
         uploadPage = new UploadPage(mapPage.getPage());
 
-        String filePath = "errortrees.json";
+        String filePath = "erorcoordinates.geojson";
         uploadPage.upload(filePath);
 
         uploadPage.verifyErrorVisibility(test);

@@ -23,8 +23,8 @@ public class UploadPage {
 
     private final Locator fileUploadInputSelector;
     private final Locator fileUploadButtonSelector;
-    private final Locator naamErrorSelector;
-    private final Locator beschrijvingErrorSelector;
+    private final Locator errorEenSelector;
+    private final Locator errorTweeSelector;
 
 
     public UploadPage(Page page) {
@@ -34,9 +34,9 @@ public class UploadPage {
         this.logOutSelector = page.getByRole(AriaRole.BUTTON,
                 new Page.GetByRoleOptions().setName("LOGOUT"));
         this.fileUploadInputSelector = page.locator("input[type='file']");
-        this.fileUploadButtonSelector =  page.locator("label:has-text('klik om een bestand te selecteren')");
-        this.naamErrorSelector = page.getByText("Boom met index 0: Naam");
-        this.beschrijvingErrorSelector = page.getByText("Boom met index 1:");
+        this.fileUploadButtonSelector = page.locator("label:has-text('klik om een bestand te selecteren')");
+        this.errorEenSelector = page.getByText("Feature 0: 'tree_id'");
+        this.errorTweeSelector = page.getByText("Feature 1: Ongeldige");
     }
 
     public void clickMap() {
@@ -79,25 +79,26 @@ public class UploadPage {
     public void navigate() {
         page.navigate(URL);
     }
-    public void verifyErrorVisibility(ExtentTest test) {
-        naamErrorSelector.waitFor();
-        beschrijvingErrorSelector.waitFor();
-        boolean isNaamErrorVisible = naamErrorSelector.isVisible();
-        boolean isBeschrijvingErrorVisible = beschrijvingErrorSelector.isVisible();
 
-        if (isNaamErrorVisible && isBeschrijvingErrorVisible) {
+    public void verifyErrorVisibility(ExtentTest test) {
+        errorEenSelector.waitFor();
+        errorTweeSelector.waitFor();
+        boolean isEersteErrorVisible = errorEenSelector.isVisible();
+        boolean isTweedeErrorVisible = errorTweeSelector.isVisible();
+
+        if (isEersteErrorVisible && isTweedeErrorVisible) {
             test.pass("Beide foutmeldingen zijn zichtbaar: 'Naam' en 'Beschrijving'.");
         } else {
-            if (!isNaamErrorVisible) {
-                test.fail("Foutmelding voor 'Boom met index 0: Naam' is niet zichtbaar.");
+            if (!isEersteErrorVisible) {
+                test.fail("Foutmelding voor Feature 0 is niet zichtbaar.");
             }
-            if (!isBeschrijvingErrorVisible) {
-                test.fail("Foutmelding voor 'Boom met index 1:' is niet zichtbaar.");
+            if (!isTweedeErrorVisible) {
+                test.fail("Foutmelding voor Feature 1 is niet zichtbaar.");
             }
         }
 
-        Assertions.assertTrue(isNaamErrorVisible, "Foutmelding 'Boom met index 0: Naam' moet zichtbaar zijn.");
-        Assertions.assertTrue(isBeschrijvingErrorVisible, "Foutmelding 'Boom met index 1:' moet zichtbaar zijn.");
+        Assertions.assertTrue(isEersteErrorVisible, "Foutmelding 'Error 1 moet zichtbaar zijn.");
+        Assertions.assertTrue(isTweedeErrorVisible, "Foutmelding 'Error 2 moet zichtbaar zijn.");
     }
 
 

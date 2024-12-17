@@ -68,7 +68,7 @@
 //
 //        uploadPage = new UploadPage(mapPage.getPage());
 //
-//        String filePath = "trees.json";
+//        String filePath = "coordinates.geojson";
 //        uploadPage.upload(filePath);
 //
 //        double[] expectedCoordinates = CoordinateUtil.getCoordinates(filePath);

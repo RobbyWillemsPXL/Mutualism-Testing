@@ -74,7 +74,7 @@ public class TC24_UploadFileTestRedirectTest {
 
         uploadPage = new UploadPage(mapPage.getPage());
 
-        String filePath = "trees.json";
+        String filePath = "coordinates.geojson";
 
         uploadPage.uploadTest(filePath, test, System.getProperty("app.url") + "map");
     }

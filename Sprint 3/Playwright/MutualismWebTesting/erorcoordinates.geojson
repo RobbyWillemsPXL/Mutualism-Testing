@@ -1,0 +1,54 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {},
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    50.95334494451556,
+                    5.352717483467012
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "tree_id": "10"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    5.352414770662628
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "tree_id": "16"
+            },
+            "geometry": {
+                "type": "Point5",
+                "coordinates": [
+                    50.953798520705945,
+                    5.352387512364623
+                ]
+            }
+        },
+        {
+            "type": "FeatureFoutief",
+            "properties": {
+                "tree_id": "18"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    50.953964111007615,
+                    5.352260057733035
+                ]
+            }
+        }
+    ]
+}
